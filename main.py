@@ -2,7 +2,10 @@ from flask import Flask, request, jsonify, render_template
 import random
 import datetime
 
-app = Flask(__name__)
+import os
+app = Flask(__name__, 
+            template_folder=os.path.join(os.path.dirname(__file__), 'templates'),
+            static_folder=os.path.join(os.path.dirname(__file__), 'static'))
 
 # In-memory data store
 data = {
