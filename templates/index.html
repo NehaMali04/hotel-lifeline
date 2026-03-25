@@ -16,7 +16,9 @@
 
     nav { background: linear-gradient(135deg, #0d9488, #14b8a6); display: grid; grid-template-columns: repeat(5,1fr); gap: 5px; padding: 8px 10px; border-bottom: none; width: 100%; }
     nav::-webkit-scrollbar { display: none; }
-    nav button { background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); color: #fff; padding: 8px 2px; border-radius: 8px; cursor: pointer; font-size: 0.72rem; text-align: center; transition: all 0.2s; width: 100%; }
+    nav button { background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); color: #fff; padding: 8px 4px; border-radius: 8px; cursor: pointer; font-size: 0.65rem; text-align: center; transition: all 0.2s; width: 100%; display: flex; flex-direction: column; align-items: center; gap: 4px; line-height: 1.2; }
+    nav button .nav-icon { font-size: 1.3rem; line-height: 1; }
+    nav button .nav-label { font-size: 0.62rem; white-space: normal; word-break: break-word; }
     nav button.active, nav button:hover { background: rgba(255,255,255,0.35); border-color: #fff; font-weight: 700; }
 
     .page { display: none; padding: 16px; width: 100%; }
@@ -139,7 +141,9 @@
       .header-text h1 { font-size: 1.7rem; }
       .header-text p  { font-size: 0.85rem; }
       nav { display: flex; padding: 10px 40px; gap: 8px; }
-      nav button { font-size: 0.9rem; padding: 8px 18px; width: auto; }
+      nav button { font-size: 0.9rem; padding: 8px 18px; width: auto; flex-direction: row; gap: 6px; }
+      nav button .nav-icon { font-size: 1rem; }
+      nav button .nav-label { font-size: 0.9rem; white-space: nowrap; }
       .page { padding: 36px 40px; max-width: 960px; margin: 0 auto; }
       .grid-2 { grid-template-columns: 1fr 1fr; gap: 16px; }
       .room-grid { grid-template-columns: 1fr 1fr; }
@@ -162,11 +166,11 @@
 </header>
 
 <nav>
-  <button class="active" onclick="showPage('booking',this)">🛏 Booking</button>
-  <button onclick="showPage('rooms',this)">🏠 Rooms Info</button>
-  <button onclick="showPage('restaurant',this)">🍽 Room Service</button>
-  <button onclick="showPage('payment',this)">💳 Payment</button>
-  <button onclick="showPage('records',this)">📋 Records</button>
+  <button class="active" onclick="showPage('booking',this)"><span class="nav-icon">🛏</span><span class="nav-label">Booking</span></button>
+  <button onclick="showPage('rooms',this)"><span class="nav-icon">🏠</span><span class="nav-label">Rooms Info</span></button>
+  <button onclick="showPage('restaurant',this)"><span class="nav-icon">🍽</span><span class="nav-label">Room Service</span></button>
+  <button onclick="showPage('payment',this)"><span class="nav-icon">💳</span><span class="nav-label">Payment</span></button>
+  <button onclick="showPage('records',this)"><span class="nav-icon">📋</span><span class="nav-label">Records</span></button>
 </nav>
 
 <!-- BOOKING -->
