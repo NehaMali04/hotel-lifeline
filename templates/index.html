@@ -110,6 +110,15 @@
     .record-row .rlabel { color: #888; font-size: 0.78rem; flex-shrink: 0; }
     .record-row .rvalue { color: #333; font-weight: 600; text-align: right; }
 
+    /* Show cards on mobile, table on desktop */
+    .records-mobile { display: block; }
+    .records-desktop { display: none; }
+
+    @media (min-width: 640px) {
+      .records-mobile { display: none; }
+      .records-desktop { display: block; }
+    }
+
     .success-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center; padding: 16px; }
     .success-overlay.show { display: flex; }
     .success-modal { background: #fff; border-radius: 20px; padding: 32px 20px; text-align: center; width: 100%; max-width: 380px; box-shadow: 0 20px 60px rgba(0,0,0,0.2); animation: popIn 0.4s cubic-bezier(0.175,0.885,0.32,1.275); }
@@ -317,8 +326,20 @@
 <div id="records" class="page">
   <h2>Hotel Records</h2>
   <button class="btn btn-sm btn-outline" onclick="loadRecords()" style="margin-bottom:14px">🔄 Refresh</button>
-  <div id="records-container">
+
+  <!-- Mobile Cards (hidden on desktop) -->
+  <div id="records-cards" class="records-mobile">
     <p style="color:#aaa;text-align:center;padding:20px">Click Refresh to load records</p>
+  </div>
+
+  <!-- Desktop Table (hidden on mobile) -->
+  <div class="records-desktop card" style="padding:0;overflow:hidden;">
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Name</th><th>Phone</th><th>Address</th><th>Check-In</th><th>Check-Out</th><th>Room</th><th>Price/Night</th><th>Status</th></tr></thead>
+        <tbody id="records-body"><tr><td colspan="8" style="text-align:center;color:#aaa;padding:20px">Click Refresh to load records</td></tr></tbody>
+      </table>
+    </div>
   </div>
 </div>
 
@@ -413,9 +434,15 @@
   }
   async function loadRecords(){
     const res=await fetch('/api/records');const records=await res.json();
-    const container=document.getElementById('records-container');
-    if(!records.length){container.innerHTML='<p style="color:#aaa;text-align:center;padding:20px">No records found</p>';return;}
-    container.innerHTML=records.map(r=>`
+    const cards=document.getElementById('records-cards');
+    const tbody=document.getElementById('records-body');
+    if(!records.length){
+      cards.innerHTML='<p style="color:#aaa;text-align:center;padding:20px">No records found</p>';
+      tbody.innerHTML='<tr><td colspan="8" style="text-align:center;color:#aaa;padding:20px">No records found</td></tr>';
+      return;
+    }
+    // Mobile cards
+    cards.innerHTML=records.map(r=>`
       <div class="record-card">
         <div class="record-card-header">
           <h4>👤 ${r.name}</h4>
@@ -428,6 +455,14 @@
         <div class="record-row"><span class="rlabel">🛏 Room</span><span class="rvalue">${r.room}</span></div>
         <div class="record-row"><span class="rlabel">💰 Price/Night</span><span class="rvalue">₹${r.price}</span></div>
       </div>`).join('');
+    // Desktop table
+    tbody.innerHTML=records.map(r=>`
+      <tr>
+        <td>${r.name}</td><td>${r.phno}</td><td>${r.address}</td>
+        <td>${r.checkin}</td><td>${r.checkout}</td><td>${r.room}</td>
+        <td>₹${r.price}</td>
+        <td><span class="badge ${r.status==='Paid'?'badge-paid':'badge-pending'}">${r.status}</span></td>
+      </tr>`).join('');
   }
   buildMenu();
 </script>
