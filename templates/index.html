@@ -1,211 +1,142 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Hotel & Lodging Lifeline</title>
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: 'Segoe UI', sans-serif; background: #f0fafa; color: #1a1a1a; min-height: 100vh; overflow-x: hidden; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { width: 100%; max-width: 100%; overflow-x: hidden; font-family: 'Segoe UI', sans-serif; background: #f0fafa; color: #1a1a1a; }
 
-    /* HEADER */
-    header {
-      background: linear-gradient(135deg, #0d9488, #14b8a6);
-      padding: 12px 16px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      box-shadow: 0 2px 12px rgba(13,148,136,0.3);
-      width: 100%;
-    }
-    header img { height: 52px; width: 52px; object-fit: contain; background: #0d9488; border-radius: 10px; padding: 4px; flex-shrink: 0; }
-    header h1 { font-size: 1.1rem; color: #fff; line-height: 1.2; }
-    header p  { font-size: 0.72rem; color: rgba(255,255,255,0.85); margin-top: 2px; }
+    header { background: linear-gradient(135deg,#0d9488,#14b8a6); padding: 12px 16px; display: flex; align-items: center; gap: 12px; width: 100%; }
+    header img { height: 50px; width: 50px; object-fit: contain; background: rgba(255,255,255,0.15); border-radius: 10px; padding: 4px; flex-shrink: 0; }
+    .header-text h1 { font-size: 1.15rem; color: #fff; line-height: 1.2; }
+    .header-text p  { font-size: 0.72rem; color: rgba(255,255,255,0.85); margin-top: 2px; }
 
-    /* NAV */
-    nav {
-      background: #fff;
-      display: flex;
-      gap: 6px;
-      padding: 8px 12px;
-      border-bottom: 2px solid #ccf0ed;
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
-      scrollbar-width: none;
-    }
+    nav { background: #fff; display: flex; gap: 6px; padding: 8px 12px; border-bottom: 2px solid #ccf0ed; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; width: 100%; }
     nav::-webkit-scrollbar { display: none; }
-    nav button {
-      background: transparent;
-      border: 1px solid #b2dfdb;
-      color: #555;
-      padding: 8px 14px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 0.82rem;
-      white-space: nowrap;
-      flex-shrink: 0;
-      transition: all 0.2s;
-    }
+    nav button { background: transparent; border: 1px solid #b2dfdb; color: #555; padding: 8px 14px; border-radius: 8px; cursor: pointer; font-size: 0.82rem; white-space: nowrap; flex-shrink: 0; transition: all 0.2s; }
     nav button.active, nav button:hover { background: #0d9488; color: #fff; border-color: #0d9488; font-weight: 600; }
 
-    /* PAGES */
     .page { display: none; padding: 16px; width: 100%; }
     .page.active { display: block; }
 
-    h2 { color: #0d9488; font-size: 1.2rem; margin-bottom: 16px; border-left: 4px solid #0d9488; padding-left: 10px; }
+    h2 { color: #0d9488; font-size: 1.15rem; margin-bottom: 14px; border-left: 4px solid #0d9488; padding-left: 10px; }
 
-    /* CARD */
     .card { background: #fff; border: 1px solid #ccf0ed; border-radius: 12px; padding: 16px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(13,148,136,0.08); width: 100%; }
 
-    /* FORM */
-    .form-group { margin-bottom: 14px; width: 100%; }
+    .form-group { margin-bottom: 13px; width: 100%; }
     label { display: block; margin-bottom: 5px; color: #0d9488; font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.4px; }
-    input, select {
-      width: 100%;
-      padding: 11px 13px;
-      background: #f8fffe;
-      border: 1px solid #b2dfdb;
-      border-radius: 8px;
-      color: #1a1a1a;
-      font-size: 0.95rem;
-      transition: border-color 0.2s;
-      -webkit-appearance: none;
-    }
+    input, select { display: block; width: 100%; padding: 11px 12px; background: #f8fffe; border: 1px solid #b2dfdb; border-radius: 8px; color: #1a1a1a; font-size: 0.95rem; -webkit-appearance: none; appearance: none; }
     input:focus, select:focus { outline: none; border-color: #0d9488; box-shadow: 0 0 0 3px rgba(13,148,136,0.12); }
-    select option { background: #fff; color: #1a1a1a; }
 
-    /* BUTTON */
-    .btn {
-      background: #0d9488; color: #fff; border: none;
-      padding: 13px; border-radius: 8px; font-size: 1rem;
-      font-weight: 700; cursor: pointer; width: 100%;
-      margin-top: 8px; box-shadow: 0 2px 8px rgba(13,148,136,0.25);
-      transition: background 0.2s;
-    }
+    .btn { display: block; width: 100%; background: #0d9488; color: #fff; border: none; padding: 13px; border-radius: 8px; font-size: 1rem; font-weight: 700; cursor: pointer; margin-top: 8px; box-shadow: 0 2px 8px rgba(13,148,136,0.25); transition: background 0.2s; text-align: center; }
     .btn:hover { background: #0f766e; }
+    .btn-sm { display: inline-block; width: auto; padding: 10px 20px; }
     .btn-outline { background: transparent; border: 2px solid #0d9488; color: #0d9488; box-shadow: none; }
     .btn-outline:hover { background: #0d9488; color: #fff; }
 
-    /* ALERTS */
-    .alert { padding: 12px 14px; border-radius: 8px; margin-top: 14px; font-size: 0.88rem; }
+    .alert { padding: 12px 14px; border-radius: 8px; margin-top: 12px; font-size: 0.88rem; width: 100%; }
     .alert-success { background: #e6faf8; border: 1px solid #0d9488; color: #0d6e65; }
     .alert-error   { background: #fff0f0; border: 1px solid #e74c3c; color: #c0392b; }
 
-    /* ROOM GRID */
-    .room-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
-    .room-card { background: #fff; border: 1px solid #ccf0ed; border-radius: 10px; padding: 16px; box-shadow: 0 1px 4px rgba(13,148,136,0.07); }
+    .grid-2 { display: grid; grid-template-columns: 1fr; gap: 0; width: 100%; }
+
+    .room-grid { display: grid; grid-template-columns: 1fr; gap: 12px; width: 100%; }
+    .room-card { background: #fff; border: 1px solid #ccf0ed; border-radius: 10px; padding: 16px; }
     .room-card h3 { color: #0d9488; margin-bottom: 6px; font-size: 1rem; }
     .room-card .price-tag { display: inline-block; background: #0d9488; color: #fff; padding: 3px 12px; border-radius: 20px; font-weight: 700; font-size: 0.82rem; margin-bottom: 8px; }
     .room-card p { color: #555; font-size: 0.83rem; line-height: 1.6; }
 
-    /* MENU */
-    .menu-section { margin-bottom: 20px; }
+    .menu-section { margin-bottom: 18px; }
     .menu-section h3 { color: #0d9488; border-bottom: 2px solid #ccf0ed; padding-bottom: 7px; margin-bottom: 10px; font-size: 0.95rem; }
-    .menu-items { display: grid; grid-template-columns: 1fr; gap: 7px; }
-    .menu-item {
-      display: flex; align-items: center; gap: 10px;
-      background: #f8fffe; border: 1px solid #b2dfdb;
-      border-radius: 8px; padding: 9px 12px;
-      cursor: pointer; user-select: none;
-      transition: border-color 0.2s, background 0.2s;
-    }
-    .menu-item:hover, .menu-item.selected { border-color: #0d9488; background: #e6faf8; }
+    .menu-items { display: grid; grid-template-columns: 1fr; gap: 7px; width: 100%; }
+    .menu-item { display: flex; align-items: center; gap: 10px; background: #f8fffe; border: 1px solid #b2dfdb; border-radius: 8px; padding: 10px 12px; cursor: pointer; user-select: none; width: 100%; }
+    .menu-item.selected, .menu-item:hover { border-color: #0d9488; background: #e6faf8; }
     .menu-item input[type="checkbox"] { accent-color: #0d9488; width: 17px; height: 17px; pointer-events: none; flex-shrink: 0; }
-    .menu-item span { flex: 1; font-size: 0.88rem; color: #333; }
-    .menu-item .item-price { color: #0d9488; font-weight: 700; font-size: 0.85rem; }
+    .menu-item .item-name { flex: 1; font-size: 0.88rem; color: #333; }
+    .menu-item .item-price { color: #0d9488; font-weight: 700; font-size: 0.85rem; white-space: nowrap; }
 
-    /* ORDER SUMMARY */
     .order-summary { background: #e6faf8; border: 1px solid #0d9488; border-radius: 8px; padding: 14px; margin-top: 14px; }
     .order-summary h4 { color: #0d9488; margin-bottom: 4px; }
     #order-total { font-size: 1.3rem; color: #0d9488; font-weight: 700; }
 
-    /* PAYMENT MODES */
-    .pay-modes { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 16px; }
+    .pay-modes { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 16px; width: 100%; }
     .pay-mode-btn { background: #f8fffe; border: 1px solid #b2dfdb; border-radius: 8px; padding: 11px 6px; text-align: center; cursor: pointer; font-size: 0.82rem; color: #555; transition: all 0.2s; }
-    .pay-mode-btn:hover, .pay-mode-btn.active { border-color: #0d9488; background: #0d9488; color: #fff; font-weight: 700; }
+    .pay-mode-btn.active, .pay-mode-btn:hover { border-color: #0d9488; background: #0d9488; color: #fff; font-weight: 700; }
 
-    .pay-fields { animation: fadeIn 0.2s ease; }
-    @keyframes fadeIn { from { opacity:0; transform:translateY(5px); } to { opacity:1; transform:translateY(0); } }
+    .pay-fields { animation: fadeIn 0.2s ease; width: 100%; }
+    @keyframes fadeIn { from{opacity:0;transform:translateY(5px)} to{opacity:1;transform:translateY(0)} }
 
-    /* CARD FIELDS */
-    .card-fields-grid { display: grid; grid-template-columns: 1fr; gap: 0; }
-
-    /* UPI */
-    .upi-box { background: #f8fffe; border: 1px solid #b2dfdb; border-radius: 12px; padding: 16px; }
-    .upi-qr-side { display: flex; flex-direction: column; align-items: center; gap: 10px; padding-bottom: 16px; border-bottom: 1px dashed #b2dfdb; margin-bottom: 16px; }
-    .upi-label { color: #0d9488; font-weight: 700; font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.4px; }
+    .upi-section { background: #f8fffe; border: 1px solid #b2dfdb; border-radius: 12px; padding: 16px; width: 100%; }
+    .upi-qr-block { display: flex; flex-direction: column; align-items: center; gap: 10px; padding-bottom: 16px; border-bottom: 1px dashed #b2dfdb; margin-bottom: 16px; }
+    .upi-label { color: #0d9488; font-weight: 700; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.4px; }
     .qr-wrapper { background: #fff; padding: 8px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
     .upi-name { color: #1a1a1a; font-weight: 600; font-size: 0.95rem; }
-    .upi-id-row { display: flex; align-items: center; gap: 8px; background: #e6faf8; border: 1px solid #0d9488; border-radius: 8px; padding: 6px 10px; }
-    .upi-id-row span { color: #0d9488; font-size: 0.82rem; font-family: monospace; font-weight: 600; }
-    .copy-btn { background: transparent; border: 1px solid #0d9488; color: #0d9488; border-radius: 6px; padding: 3px 8px; cursor: pointer; font-size: 0.75rem; transition: all 0.2s; white-space: nowrap; }
+    .upi-id-row { display: flex; align-items: center; gap: 8px; background: #e6faf8; border: 1px solid #0d9488; border-radius: 8px; padding: 6px 10px; width: 100%; }
+    .upi-id-row span { color: #0d9488; font-size: 0.8rem; font-family: monospace; font-weight: 600; flex: 1; word-break: break-all; }
+    .copy-btn { background: transparent; border: 1px solid #0d9488; color: #0d9488; border-radius: 6px; padding: 4px 8px; cursor: pointer; font-size: 0.75rem; white-space: nowrap; }
     .copy-btn:hover { background: #0d9488; color: #fff; }
     .upi-hint { color: #888; font-size: 0.73rem; text-align: center; }
     .upi-apps { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
     .upi-app { background: #f8fffe; border: 1px solid #b2dfdb; border-radius: 8px; padding: 8px 14px; cursor: pointer; font-size: 0.83rem; color: #555; transition: all 0.2s; }
-    .upi-app:hover, .upi-app.active { border-color: #0d9488; color: #0d9488; background: #e6faf8; font-weight: 600; }
+    .upi-app.active, .upi-app:hover { border-color: #0d9488; color: #0d9488; background: #e6faf8; }
 
-    /* CASH */
-    .cash-info { display: flex; align-items: center; gap: 14px; background: #e6faf8; border: 1px solid #0d9488; border-radius: 10px; padding: 16px; color: #333; font-size: 0.9rem; }
-    .cash-info span { font-size: 2rem; flex-shrink: 0; }
+    .cash-info { display: flex; align-items: flex-start; gap: 12px; background: #e6faf8; border: 1px solid #0d9488; border-radius: 10px; padding: 16px; color: #333; font-size: 0.9rem; width: 100%; }
+    .cash-info .cash-icon { font-size: 2rem; flex-shrink: 0; }
 
-    /* BILL */
-    .bill-box { background: #f8fffe; border: 2px solid #0d9488; border-radius: 10px; padding: 16px; font-family: monospace; }
-    .bill-box h3 { text-align: center; color: #0d9488; margin-bottom: 14px; font-size: 1.05rem; }
-    .bill-row { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px dashed #b2dfdb; color: #333; font-size: 0.85rem; gap: 8px; }
-    .bill-row span:last-child { text-align: right; }
-    .bill-row:last-child { border-bottom: none; font-weight: 700; color: #0d9488; font-size: 1rem; }
+    .bill-box { background: #f8fffe; border: 2px solid #0d9488; border-radius: 10px; padding: 16px; width: 100%; }
+    .bill-box h3 { text-align: center; color: #0d9488; margin-bottom: 14px; font-size: 1rem; }
+    .bill-row { display: flex; justify-content: space-between; align-items: flex-start; padding: 6px 0; border-bottom: 1px dashed #b2dfdb; color: #333; font-size: 0.85rem; gap: 8px; }
+    .bill-row span:first-child { color: #666; flex-shrink: 0; }
+    .bill-row span:last-child { text-align: right; font-weight: 600; }
+    .bill-row:last-child { border-bottom: none; color: #0d9488; font-size: 1rem; font-weight: 700; }
 
-    /* RECORDS TABLE */
     .table-wrap { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
-    table { width: 100%; border-collapse: collapse; font-size: 0.8rem; min-width: 600px; }
-    th { background: #e6faf8; color: #0d9488; padding: 10px 10px; text-align: left; border-bottom: 2px solid #0d9488; white-space: nowrap; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.8rem; min-width: 580px; }
+    th { background: #e6faf8; color: #0d9488; padding: 10px; text-align: left; border-bottom: 2px solid #0d9488; white-space: nowrap; }
     td { padding: 9px 10px; border-bottom: 1px solid #e0f5f3; color: #333; white-space: nowrap; }
     tr:hover td { background: #f0fafa; }
     .badge { padding: 3px 10px; border-radius: 20px; font-size: 0.73rem; font-weight: 700; }
     .badge-paid    { background: #e6faf8; color: #0d9488; border: 1px solid #0d9488; }
     .badge-pending { background: #fff7e6; color: #e67e22; border: 1px solid #e67e22; }
 
-    /* SUCCESS MODAL */
-    .success-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.45); z-index: 1000; align-items: center; justify-content: center; padding: 16px; }
+    .success-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center; padding: 16px; }
     .success-overlay.show { display: flex; }
-    .success-modal { background: #fff; border-radius: 20px; padding: 36px 24px; text-align: center; width: 100%; max-width: 400px; box-shadow: 0 20px 60px rgba(0,0,0,0.2); animation: popIn 0.4s cubic-bezier(0.175,0.885,0.32,1.275); }
-    @keyframes popIn { from { transform:scale(0.7); opacity:0; } to { transform:scale(1); opacity:1; } }
-    .tick-circle { width: 80px; height: 80px; border-radius: 50%; background: #e6faf8; border: 4px solid #0d9488; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; animation: scaleIn 0.5s ease; }
-    @keyframes scaleIn { from { transform:scale(0); } to { transform:scale(1); } }
-    .tick-circle svg { width: 44px; height: 44px; stroke: #0d9488; stroke-width: 3; fill: none; stroke-dasharray: 60; stroke-dashoffset: 60; animation: drawTick 0.5s 0.3s ease forwards; }
-    @keyframes drawTick { to { stroke-dashoffset: 0; } }
+    .success-modal { background: #fff; border-radius: 20px; padding: 32px 20px; text-align: center; width: 100%; max-width: 380px; box-shadow: 0 20px 60px rgba(0,0,0,0.2); animation: popIn 0.4s cubic-bezier(0.175,0.885,0.32,1.275); }
+    @keyframes popIn { from{transform:scale(0.7);opacity:0} to{transform:scale(1);opacity:1} }
+    .tick-circle { width: 80px; height: 80px; border-radius: 50%; background: #e6faf8; border: 4px solid #0d9488; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; }
+    .tick-circle svg { width: 42px; height: 42px; stroke: #0d9488; stroke-width: 3; fill: none; stroke-dasharray: 60; stroke-dashoffset: 60; animation: drawTick 0.5s 0.3s ease forwards; }
+    @keyframes drawTick { to{stroke-dashoffset:0} }
     .success-modal h3 { color: #0d9488; font-size: 1.4rem; margin-bottom: 8px; }
     .success-modal p  { color: #555; font-size: 0.9rem; margin-bottom: 20px; }
     .success-amount { font-size: 1.8rem; font-weight: 800; color: #0d9488; margin-bottom: 6px; }
     .success-mode   { display: inline-block; background: #e6faf8; color: #0d9488; border: 1px solid #0d9488; border-radius: 20px; padding: 4px 14px; font-size: 0.83rem; font-weight: 600; margin-bottom: 20px; }
-    .success-close  { background: #0d9488; color: #fff; border: none; padding: 12px 32px; border-radius: 8px; font-size: 1rem; font-weight: 700; cursor: pointer; transition: background 0.2s; }
-    .success-close:hover { background: #0f766e; }
+    .success-close  { background: #0d9488; color: #fff; border: none; padding: 12px 28px; border-radius: 8px; font-size: 1rem; font-weight: 700; cursor: pointer; }
 
-    /* DESKTOP OVERRIDES */
     @media (min-width: 640px) {
       header { padding: 18px 40px; }
       header img { height: 68px; width: 68px; }
-      header h1 { font-size: 1.7rem; }
-      header p  { font-size: 0.85rem; }
+      .header-text h1 { font-size: 1.7rem; }
+      .header-text p  { font-size: 0.85rem; }
       nav { padding: 10px 40px; }
       nav button { font-size: 0.9rem; padding: 8px 18px; }
       .page { padding: 36px 40px; max-width: 960px; margin: 0 auto; }
-      .card-fields-grid { grid-template-columns: 1fr 1fr; gap: 16px; }
+      .grid-2 { grid-template-columns: 1fr 1fr; gap: 16px; }
       .room-grid { grid-template-columns: 1fr 1fr; }
-      .menu-items { grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); }
-      .pay-modes { grid-template-columns: repeat(4, 1fr); }
-      .upi-box { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
-      .upi-qr-side { border-bottom: none; border-right: 1px dashed #b2dfdb; padding-bottom: 0; margin-bottom: 0; padding-right: 24px; }
-      .btn { width: auto; }
+      .menu-items { grid-template-columns: repeat(auto-fill, minmax(210px,1fr)); }
+      .pay-modes { grid-template-columns: repeat(4,1fr); }
+      .btn { display: inline-block; width: auto; }
+      .upi-section { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+      .upi-qr-block { border-bottom: none; border-right: 1px dashed #b2dfdb; padding-bottom: 0; margin-bottom: 0; padding-right: 24px; }
     }
   </style>
 </head>
 <body>
 
 <header>
-  <img src="/static/logo.png" alt="Lifeline Logo" />
-  <div>
+  <img src="/static/logo.png" alt="Lifeline Logo"/>
+  <div class="header-text">
     <h1>Hotel & Lodging Lifeline</h1>
     <p>Your Comfort, Our Commitment</p>
   </div>
@@ -223,28 +154,28 @@
 <div id="booking" class="page active">
   <h2>Room Booking</h2>
   <div class="card">
-    <div class="card-fields-grid">
+    <div class="grid-2">
       <div class="form-group">
         <label>Full Name</label>
-        <input type="text" id="b-name" placeholder="e.g. Neha Mali" />
+        <input type="text" id="b-name" placeholder="e.g. Neha Mali"/>
       </div>
       <div class="form-group">
         <label>Phone Number</label>
-        <input type="tel" id="b-phone" placeholder="e.g. 9876543210" />
+        <input type="tel" id="b-phone" placeholder="e.g. 9876543210"/>
       </div>
     </div>
     <div class="form-group">
       <label>Address</label>
-      <input type="text" id="b-address" placeholder="e.g. 123, MG Road, Mumbai" />
+      <input type="text" id="b-address" placeholder="e.g. 123, MG Road, Mumbai"/>
     </div>
-    <div class="card-fields-grid">
+    <div class="grid-2">
       <div class="form-group">
         <label>Check-In Date</label>
-        <input type="date" id="b-checkin" />
+        <input type="date" id="b-checkin"/>
       </div>
       <div class="form-group">
         <label>Check-Out Date</label>
-        <input type="date" id="b-checkout" />
+        <input type="date" id="b-checkout"/>
       </div>
     </div>
     <div class="form-group">
@@ -266,26 +197,10 @@
 <div id="rooms" class="page">
   <h2>Room Information</h2>
   <div class="room-grid">
-    <div class="room-card">
-      <h3>Standard Non-AC</h3>
-      <span class="price-tag">₹3,500 / night</span>
-      <p>1 Double Bed, TV, Telephone, Double-Door Cupboard, Coffee table, Balcony, attached washroom with hot/cold water.</p>
-    </div>
-    <div class="room-card">
-      <h3>Standard AC</h3>
-      <span class="price-tag">₹4,000 / night</span>
-      <p>1 Double Bed, TV, Telephone, Double-Door Cupboard, Coffee table, Balcony, attached washroom with hot/cold water + AC.</p>
-    </div>
-    <div class="room-card">
-      <h3>3-Bed Non-AC</h3>
-      <span class="price-tag">₹4,500 / night</span>
-      <p>1 Double + 1 Single Bed, TV, Telephone, Triple-Door Cupboard, Coffee table, Side table, Balcony, attached washroom.</p>
-    </div>
-    <div class="room-card">
-      <h3>3-Bed AC</h3>
-      <span class="price-tag">₹5,000 / night</span>
-      <p>1 Double + 1 Single Bed, TV, Telephone, Triple-Door Cupboard, Coffee table, Side table, Balcony, attached washroom + AC.</p>
-    </div>
+    <div class="room-card"><h3>Standard Non-AC</h3><span class="price-tag">₹3,500/night</span><p>1 Double Bed, TV, Telephone, Double-Door Cupboard, Coffee table, Balcony, attached washroom with hot/cold water.</p></div>
+    <div class="room-card"><h3>Standard AC</h3><span class="price-tag">₹4,000/night</span><p>1 Double Bed, TV, Telephone, Double-Door Cupboard, Coffee table, Balcony, attached washroom with hot/cold water + AC.</p></div>
+    <div class="room-card"><h3>3-Bed Non-AC</h3><span class="price-tag">₹4,500/night</span><p>1 Double + 1 Single Bed, TV, Telephone, Triple-Door Cupboard, Coffee table, Side table, Balcony, attached washroom.</p></div>
+    <div class="room-card"><h3>3-Bed AC</h3><span class="price-tag">₹5,000/night</span><p>1 Double + 1 Single Bed, TV, Telephone, Triple-Door Cupboard, Coffee table, Side table, Balcony, attached washroom + AC.</p></div>
   </div>
 </div>
 
@@ -295,7 +210,7 @@
   <div class="card">
     <div class="form-group">
       <label>Customer ID</label>
-      <input type="number" id="r-custid" placeholder="Enter your Customer ID" />
+      <input type="number" id="r-custid" placeholder="Enter your Customer ID"/>
     </div>
     <div id="menu-container">
       <div class="menu-section"><h3>☕ Beverages</h3><div class="menu-items" id="menu-beverages"></div></div>
@@ -322,7 +237,7 @@
   <div class="card">
     <div class="form-group">
       <label>Phone Number</label>
-      <input type="tel" id="pay-phone" placeholder="Registered phone number" />
+      <input type="tel" id="pay-phone" placeholder="Registered phone number"/>
     </div>
     <div class="form-group">
       <label>Mode of Payment</label>
@@ -335,62 +250,40 @@
     </div>
 
     <div id="fields-card" class="pay-fields">
-      <div class="card-fields-grid">
-        <div class="form-group">
-          <label>Card Number</label>
-          <input type="text" id="card-number" maxlength="19" placeholder="XXXX XXXX XXXX XXXX" oninput="formatCard(this)" />
-        </div>
-        <div class="form-group">
-          <label>Card Holder Name</label>
-          <input type="text" id="card-name" placeholder="Name on card" />
-        </div>
+      <div class="grid-2">
+        <div class="form-group"><label>Card Number</label><input type="text" id="card-number" maxlength="19" placeholder="XXXX XXXX XXXX XXXX" oninput="formatCard(this)"/></div>
+        <div class="form-group"><label>Card Holder Name</label><input type="text" id="card-name" placeholder="Name on card"/></div>
       </div>
-      <div class="card-fields-grid">
-        <div class="form-group">
-          <label>Expiry</label>
-          <input type="text" id="card-expiry" maxlength="5" placeholder="MM/YY" oninput="formatExpiry(this)" />
-        </div>
-        <div class="form-group">
-          <label>CVV</label>
-          <input type="password" id="card-cvv" maxlength="3" placeholder="•••" />
-        </div>
+      <div class="grid-2">
+        <div class="form-group"><label>Expiry</label><input type="text" id="card-expiry" maxlength="5" placeholder="MM/YY" oninput="formatExpiry(this)"/></div>
+        <div class="form-group"><label>CVV</label><input type="password" id="card-cvv" maxlength="3" placeholder="•••"/></div>
       </div>
     </div>
 
     <div id="fields-upi" class="pay-fields" style="display:none">
-      <div class="upi-box">
-        <div class="upi-qr-side">
+      <div class="upi-section">
+        <div class="upi-qr-block">
           <p class="upi-label">Scan QR to Pay</p>
-          <div class="qr-wrapper">
-            <img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=upi://pay?pa=nehamali4601-1@okaxis%26pn=Neha%20Mali%26cu=INR" alt="UPI QR" width="160" height="160" />
-          </div>
+          <div class="qr-wrapper"><img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=upi://pay?pa=nehamali4601-1@okaxis%26pn=Neha%20Mali%26cu=INR" alt="UPI QR" width="160" height="160"/></div>
           <p class="upi-name">Neha Mali</p>
-          <div class="upi-id-row">
-            <span>nehamali4601-1@okaxis</span>
-            <button class="copy-btn" onclick="copyUPI()">📋 Copy</button>
-          </div>
+          <div class="upi-id-row"><span>nehamali4601-1@okaxis</span><button class="copy-btn" onclick="copyUPI()">📋 Copy</button></div>
           <p class="upi-hint">Scan with GPay, PhonePe, Paytm, BHIM</p>
         </div>
         <div>
           <p class="upi-label">Or Enter UPI ID</p>
-          <div class="form-group" style="margin-top:8px">
-            <input type="text" id="upi-id" placeholder="e.g. yourname@upi" />
-          </div>
+          <div class="form-group" style="margin-top:8px"><input type="text" id="upi-id" placeholder="e.g. yourname@upi"/></div>
           <div class="upi-apps">
-            <div class="upi-app" onclick="selectUpi(this,'GPay')">🟢 GPay</div>
-            <div class="upi-app" onclick="selectUpi(this,'PhonePe')">🟣 PhonePe</div>
-            <div class="upi-app" onclick="selectUpi(this,'Paytm')">🔵 Paytm</div>
-            <div class="upi-app" onclick="selectUpi(this,'BHIM')">🟠 BHIM</div>
+            <div class="upi-app" onclick="selectUpi(this)">🟢 GPay</div>
+            <div class="upi-app" onclick="selectUpi(this)">🟣 PhonePe</div>
+            <div class="upi-app" onclick="selectUpi(this)">🔵 Paytm</div>
+            <div class="upi-app" onclick="selectUpi(this)">🟠 BHIM</div>
           </div>
         </div>
       </div>
     </div>
 
     <div id="fields-wallet" class="pay-fields" style="display:none">
-      <div class="form-group">
-        <label>Registered Mobile</label>
-        <input type="tel" id="wallet-mobile" placeholder="Mobile linked to wallet" />
-      </div>
+      <div class="form-group"><label>Registered Mobile</label><input type="tel" id="wallet-mobile" placeholder="Mobile linked to wallet"/></div>
       <div class="form-group">
         <label>Wallet</label>
         <select id="wallet-type">
@@ -403,10 +296,7 @@
     </div>
 
     <div id="fields-cash" class="pay-fields" style="display:none">
-      <div class="cash-info">
-        <span>🪙</span>
-        <p>Please pay the exact amount at the front desk. Our staff will provide a printed receipt.</p>
-      </div>
+      <div class="cash-info"><span class="cash-icon">🪙</span><p>Please pay the exact amount at the front desk. Our staff will provide a printed receipt.</p></div>
     </div>
 
     <button class="btn" onclick="makePayment()" style="margin-top:10px">Confirm Payment</button>
@@ -417,20 +307,12 @@
 <!-- RECORDS -->
 <div id="records" class="page">
   <h2>Hotel Records</h2>
-  <button class="btn btn-outline" onclick="loadRecords()" style="margin-bottom:16px">🔄 Refresh</button>
+  <button class="btn btn-sm btn-outline" onclick="loadRecords()" style="margin-bottom:14px">🔄 Refresh</button>
   <div class="card" style="padding:0;overflow:hidden;">
     <div class="table-wrap">
       <table>
-        <thead>
-          <tr>
-            <th>Name</th><th>Phone</th><th>Address</th>
-            <th>Check-In</th><th>Check-Out</th><th>Room</th>
-            <th>Price/Night</th><th>Status</th>
-          </tr>
-        </thead>
-        <tbody id="records-body">
-          <tr><td colspan="8" style="text-align:center;color:#aaa;padding:20px">Click Refresh to load records</td></tr>
-        </tbody>
+        <thead><tr><th>Name</th><th>Phone</th><th>Address</th><th>Check-In</th><th>Check-Out</th><th>Room</th><th>Price/Night</th><th>Status</th></tr></thead>
+        <tbody id="records-body"><tr><td colspan="8" style="text-align:center;color:#aaa;padding:20px">Click Refresh to load records</td></tr></tbody>
       </table>
     </div>
   </div>
@@ -439,9 +321,7 @@
 <!-- SUCCESS MODAL -->
 <div class="success-overlay" id="success-overlay">
   <div class="success-modal">
-    <div class="tick-circle">
-      <svg viewBox="0 0 52 52"><polyline points="14,27 22,36 38,18" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    </div>
+    <div class="tick-circle"><svg viewBox="0 0 52 52"><polyline points="14,27 22,36 38,18" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
     <h3>Payment Successful!</h3>
     <div class="success-amount" id="s-amount"></div>
     <div class="success-mode" id="s-mode"></div>
@@ -451,183 +331,87 @@
 </div>
 
 <script>
-  function showPage(id, btn) {
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  function showPage(id,btn){
+    document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+    document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
     document.getElementById(id).classList.add('active');
     btn.classList.add('active');
-    if (id === 'records') loadRecords();
+    if(id==='records') loadRecords();
   }
-
-  const menuData = {
-    beverages: [[1,"Regular Tea",20],[2,"Masala Tea",25],[3,"Coffee",25],[4,"Cold Drink",25],[5,"Bread Butter",30],[6,"Bread Jam",30],[7,"Veg Sandwich",50],[8,"Veg Toast Sandwich",50],[9,"Cheese Toast Sandwich",70],[10,"Grilled Sandwich",70]],
-    soups: [[11,"Tomato Soup",110],[12,"Hot & Sour",110],[13,"Veg Noodle Soup",110],[14,"Sweet Corn",110],[15,"Veg Munchow",110]],
-    main: [[16,"Shahi Paneer",110],[17,"Kadai Paneer",110],[18,"Handi Paneer",120],[19,"Palak Paneer",120],[20,"Chilli Paneer",140],[21,"Matar Mushroom",140],[22,"Mix Veg",140],[23,"Jeera Aloo",140],[24,"Malai Kofta",140],[25,"Aloo Matar",140]],
-    dal: [[26,"Dal Fry",140],[27,"Dal Makhani",150],[28,"Dal Tadka",150]],
-    roti: [[29,"Plain Roti",15],[30,"Butter Roti",15],[31,"Tandoori Roti",20],[32,"Butter Naan",20]],
-    rice: [[33,"Plain Rice",90],[34,"Jeera Rice",90],[35,"Veg Pulao",110],[36,"Peas Pulao",110]],
-    south: [[37,"Plain Dosa",100],[38,"Onion Dosa",110],[39,"Masala Dosa",130],[40,"Paneer Dosa",130],[41,"Rice Idli",130],[42,"Sambhar Vada",140]],
-    icecream: [[43,"Vanilla",60],[44,"Strawberry",60],[45,"Pineapple",60],[46,"Butter Scotch",60]]
+  const menuData={
+    beverages:[[1,"Regular Tea",20],[2,"Masala Tea",25],[3,"Coffee",25],[4,"Cold Drink",25],[5,"Bread Butter",30],[6,"Bread Jam",30],[7,"Veg Sandwich",50],[8,"Veg Toast Sandwich",50],[9,"Cheese Toast Sandwich",70],[10,"Grilled Sandwich",70]],
+    soups:[[11,"Tomato Soup",110],[12,"Hot & Sour",110],[13,"Veg Noodle Soup",110],[14,"Sweet Corn",110],[15,"Veg Munchow",110]],
+    main:[[16,"Shahi Paneer",110],[17,"Kadai Paneer",110],[18,"Handi Paneer",120],[19,"Palak Paneer",120],[20,"Chilli Paneer",140],[21,"Matar Mushroom",140],[22,"Mix Veg",140],[23,"Jeera Aloo",140],[24,"Malai Kofta",140],[25,"Aloo Matar",140]],
+    dal:[[26,"Dal Fry",140],[27,"Dal Makhani",150],[28,"Dal Tadka",150]],
+    roti:[[29,"Plain Roti",15],[30,"Butter Roti",15],[31,"Tandoori Roti",20],[32,"Butter Naan",20]],
+    rice:[[33,"Plain Rice",90],[34,"Jeera Rice",90],[35,"Veg Pulao",110],[36,"Peas Pulao",110]],
+    south:[[37,"Plain Dosa",100],[38,"Onion Dosa",110],[39,"Masala Dosa",130],[40,"Paneer Dosa",130],[41,"Rice Idli",130],[42,"Sambhar Vada",140]],
+    icecream:[[43,"Vanilla",60],[44,"Strawberry",60],[45,"Pineapple",60],[46,"Butter Scotch",60]]
   };
-
-  function buildMenu() {
-    Object.entries(menuData).forEach(([cat, items]) => {
-      const container = document.getElementById('menu-' + cat);
-      items.forEach(([id, name, price]) => {
-        const div = document.createElement('div');
-        div.className = 'menu-item';
-        div.innerHTML = `<input type="checkbox" value="${id}" data-price="${price}"><span>${name}</span><span class="item-price">₹${price}</span>`;
-        div.addEventListener('click', () => {
-          const cb = div.querySelector('input');
-          cb.checked = !cb.checked;
-          div.classList.toggle('selected', cb.checked);
-          updateTotal();
-        });
-        container.appendChild(div);
+  function buildMenu(){
+    Object.entries(menuData).forEach(([cat,items])=>{
+      const c=document.getElementById('menu-'+cat);
+      items.forEach(([id,name,price])=>{
+        const d=document.createElement('div');
+        d.className='menu-item';
+        d.innerHTML=`<input type="checkbox" value="${id}" data-price="${price}"><span class="item-name">${name}</span><span class="item-price">₹${price}</span>`;
+        d.addEventListener('click',()=>{const cb=d.querySelector('input');cb.checked=!cb.checked;d.classList.toggle('selected',cb.checked);updateTotal();});
+        c.appendChild(d);
       });
     });
   }
-
-  function updateTotal() {
-    let t = 0;
-    document.querySelectorAll('.menu-item input:checked').forEach(cb => t += parseInt(cb.dataset.price));
-    document.getElementById('order-total').textContent = '₹' + t;
+  function updateTotal(){let t=0;document.querySelectorAll('.menu-item input:checked').forEach(cb=>t+=parseInt(cb.dataset.price));document.getElementById('order-total').textContent='₹'+t;}
+  let currentMode='card';
+  function selectMode(el,mode){document.querySelectorAll('.pay-mode-btn').forEach(b=>b.classList.remove('active'));el.classList.add('active');document.querySelectorAll('.pay-fields').forEach(f=>f.style.display='none');document.getElementById('fields-'+mode).style.display='block';currentMode=mode;}
+  function selectUpi(el){document.querySelectorAll('.upi-app').forEach(a=>a.classList.remove('active'));el.classList.add('active');}
+  function copyUPI(){navigator.clipboard.writeText('nehamali4601-1@okaxis').then(()=>{const b=document.querySelector('.copy-btn');b.textContent='✅ Copied!';setTimeout(()=>b.textContent='📋 Copy',2000);});}
+  function formatCard(i){let v=i.value.replace(/\D/g,'').substring(0,16);i.value=v.replace(/(.{4})/g,'$1 ').trim();}
+  function formatExpiry(i){let v=i.value.replace(/\D/g,'').substring(0,4);if(v.length>=2)v=v.substring(0,2)+'/'+v.substring(2);i.value=v;}
+  function getPaymentDetails(){
+    if(currentMode==='card'){const num=document.getElementById('card-number').value.trim(),name=document.getElementById('card-name').value.trim(),exp=document.getElementById('card-expiry').value.trim(),cvv=document.getElementById('card-cvv').value.trim();if(!num||!name||!exp||!cvv)return{error:'Please fill all card details'};if(num.replace(/\s/g,'').length<16)return{error:'Invalid card number'};if(cvv.length<3)return{error:'Invalid CVV'};return{mode:'Credit/Debit Card',detail:`Card ending in ${num.slice(-4)}`};}
+    if(currentMode==='upi'){const uid=document.getElementById('upi-id').value.trim();if(!uid||!uid.includes('@'))return{error:'Enter a valid UPI ID'};return{mode:'UPI',detail:uid};}
+    if(currentMode==='wallet'){const mob=document.getElementById('wallet-mobile').value.trim(),wt=document.getElementById('wallet-type').value;if(!mob)return{error:'Enter wallet mobile number'};return{mode:wt,detail:`Mobile: ${mob}`};}
+    if(currentMode==='cash')return{mode:'Cash',detail:'Pay at front desk'};
   }
-
-  let currentMode = 'card';
-  function selectMode(el, mode) {
-    document.querySelectorAll('.pay-mode-btn').forEach(b => b.classList.remove('active'));
-    el.classList.add('active');
-    document.querySelectorAll('.pay-fields').forEach(f => f.style.display = 'none');
-    document.getElementById('fields-' + mode).style.display = 'block';
-    currentMode = mode;
+  function closeSuccess(){document.getElementById('success-overlay').classList.remove('show');document.getElementById('pay-result').scrollIntoView({behavior:'smooth'});}
+  async function bookRoom(){
+    const body={name:document.getElementById('b-name').value.trim(),phno:document.getElementById('b-phone').value.trim(),address:document.getElementById('b-address').value.trim(),checkin:document.getElementById('b-checkin').value,checkout:document.getElementById('b-checkout').value,room_type:document.getElementById('b-room').value};
+    const res=await fetch('/api/book',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+    const data=await res.json();
+    document.getElementById('book-result').innerHTML=res.ok?`<div class="alert alert-success">✅ ${data.message}<br>Room No: <strong>${data.room_no}</strong> | Customer ID: <strong>${data.customer_id}</strong></div>`:`<div class="alert alert-error">❌ ${data.error}</div>`;
   }
-  function selectUpi(el) {
-    document.querySelectorAll('.upi-app').forEach(a => a.classList.remove('active'));
-    el.classList.add('active');
+  async function placeOrder(){
+    const cid=parseInt(document.getElementById('r-custid').value);
+    const items=[...document.querySelectorAll('.menu-item input:checked')].map(cb=>parseInt(cb.value));
+    const el=document.getElementById('order-result');
+    if(!cid){el.innerHTML='<div class="alert alert-error">❌ Enter a valid Customer ID</div>';return;}
+    if(!items.length){el.innerHTML='<div class="alert alert-error">❌ Select at least one item</div>';return;}
+    const res=await fetch('/api/order',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({customer_id:cid,items})});
+    const data=await res.json();
+    if(res.ok){el.innerHTML=`<div class="alert alert-success">✅ Order placed! Bill: ₹${data.bill} | Total: ₹${data.total_rc}</div>`;document.querySelectorAll('.menu-item input:checked').forEach(cb=>{cb.checked=false;cb.closest('.menu-item').classList.remove('selected');});updateTotal();}
+    else el.innerHTML=`<div class="alert alert-error">❌ ${data.error}</div>`;
   }
-  function copyUPI() {
-    navigator.clipboard.writeText('nehamali4601-1@okaxis').then(() => {
-      const btn = document.querySelector('.copy-btn');
-      btn.textContent = '✅ Copied!';
-      setTimeout(() => btn.textContent = '📋 Copy', 2000);
-    });
-  }
-  function formatCard(input) {
-    let v = input.value.replace(/\D/g,'').substring(0,16);
-    input.value = v.replace(/(.{4})/g,'$1 ').trim();
-  }
-  function formatExpiry(input) {
-    let v = input.value.replace(/\D/g,'').substring(0,4);
-    if (v.length >= 2) v = v.substring(0,2) + '/' + v.substring(2);
-    input.value = v;
-  }
-  function getPaymentDetails() {
-    if (currentMode === 'card') {
-      const num = document.getElementById('card-number').value.trim();
-      const name = document.getElementById('card-name').value.trim();
-      const expiry = document.getElementById('card-expiry').value.trim();
-      const cvv = document.getElementById('card-cvv').value.trim();
-      if (!num||!name||!expiry||!cvv) return {error:'Please fill all card details'};
-      if (num.replace(/\s/g,'').length < 16) return {error:'Invalid card number'};
-      if (cvv.length < 3) return {error:'Invalid CVV'};
-      return {mode:'Credit/Debit Card', detail:`Card ending in ${num.slice(-4)}`};
-    }
-    if (currentMode === 'upi') {
-      const uid = document.getElementById('upi-id').value.trim();
-      if (!uid||!uid.includes('@')) return {error:'Enter a valid UPI ID'};
-      return {mode:'UPI', detail:uid};
-    }
-    if (currentMode === 'wallet') {
-      const mob = document.getElementById('wallet-mobile').value.trim();
-      const wtype = document.getElementById('wallet-type').value;
-      if (!mob) return {error:'Enter wallet mobile number'};
-      return {mode:wtype, detail:`Mobile: ${mob}`};
-    }
-    if (currentMode === 'cash') return {mode:'Cash', detail:'Pay at front desk'};
-  }
-
-  function closeSuccess() {
-    document.getElementById('success-overlay').classList.remove('show');
-    document.getElementById('pay-result').scrollIntoView({behavior:'smooth'});
-  }
-
-  async function bookRoom() {
-    const body = {
-      name: document.getElementById('b-name').value.trim(),
-      phno: document.getElementById('b-phone').value.trim(),
-      address: document.getElementById('b-address').value.trim(),
-      checkin: document.getElementById('b-checkin').value,
-      checkout: document.getElementById('b-checkout').value,
-      room_type: document.getElementById('b-room').value
-    };
-    const res = await fetch('/api/book', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(body)});
-    const data = await res.json();
-    const el = document.getElementById('book-result');
-    el.innerHTML = res.ok
-      ? `<div class="alert alert-success">✅ ${data.message}<br>Room No: <strong>${data.room_no}</strong> | Customer ID: <strong>${data.customer_id}</strong></div>`
-      : `<div class="alert alert-error">❌ ${data.error}</div>`;
-  }
-
-  async function placeOrder() {
-    const cid = parseInt(document.getElementById('r-custid').value);
-    const items = [...document.querySelectorAll('.menu-item input:checked')].map(cb => parseInt(cb.value));
-    const el = document.getElementById('order-result');
-    if (!cid) { el.innerHTML = '<div class="alert alert-error">❌ Enter a valid Customer ID</div>'; return; }
-    if (!items.length) { el.innerHTML = '<div class="alert alert-error">❌ Select at least one item</div>'; return; }
-    const res = await fetch('/api/order', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({customer_id:cid, items})});
-    const data = await res.json();
-    if (res.ok) {
-      el.innerHTML = `<div class="alert alert-success">✅ Order placed! Bill: ₹${data.bill} | Total charges: ₹${data.total_rc}</div>`;
-      document.querySelectorAll('.menu-item input:checked').forEach(cb => { cb.checked = false; cb.closest('.menu-item').classList.remove('selected'); });
-      updateTotal();
-    } else { el.innerHTML = `<div class="alert alert-error">❌ ${data.error}</div>`; }
-  }
-
-  async function makePayment() {
-    const phno = document.getElementById('pay-phone').value.trim();
-    const el = document.getElementById('pay-result');
-    if (!phno) { el.innerHTML = '<div class="alert alert-error">❌ Enter phone number</div>'; return; }
-    const payDetails = getPaymentDetails();
-    if (payDetails.error) { el.innerHTML = `<div class="alert alert-error">❌ ${payDetails.error}</div>`; return; }
-    const res = await fetch('/api/payment', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({phno})});
-    const data = await res.json();
-    if (res.ok) {
-      const b = data.bill;
-      document.getElementById('s-amount').textContent = '₹' + b.total;
-      document.getElementById('s-mode').textContent = '✅ Paid via ' + payDetails.mode;
+  async function makePayment(){
+    const phno=document.getElementById('pay-phone').value.trim();
+    const el=document.getElementById('pay-result');
+    if(!phno){el.innerHTML='<div class="alert alert-error">❌ Enter phone number</div>';return;}
+    const pd=getPaymentDetails();
+    if(pd.error){el.innerHTML=`<div class="alert alert-error">❌ ${pd.error}</div>`;return;}
+    const res=await fetch('/api/payment',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({phno})});
+    const data=await res.json();
+    if(res.ok){
+      const b=data.bill;
+      document.getElementById('s-amount').textContent='₹'+b.total;
+      document.getElementById('s-mode').textContent='✅ Paid via '+pd.mode;
       document.getElementById('success-overlay').classList.add('show');
-      el.innerHTML = `
-        <div class="bill-box" style="margin-top:16px">
-          <h3>🏨 Hotel & Lodging Lifeline — Bill</h3>
-          <div class="bill-row"><span>Name</span><span>${b.name}</span></div>
-          <div class="bill-row"><span>Phone</span><span>${b.phno}</span></div>
-          <div class="bill-row"><span>Address</span><span>${b.address}</span></div>
-          <div class="bill-row"><span>Check-In</span><span>${b.checkin}</span></div>
-          <div class="bill-row"><span>Check-Out</span><span>${b.checkout}</span></div>
-          <div class="bill-row"><span>Room Type</span><span>${b.room}</span></div>
-          <div class="bill-row"><span>Room Charges</span><span>₹${b.room_charges}</span></div>
-          <div class="bill-row"><span>Restaurant Charges</span><span>₹${b.restaurant_charges}</span></div>
-          <div class="bill-row"><span>Payment Mode</span><span>${payDetails.mode}</span></div>
-          <div class="bill-row"><span>Total Amount</span><span>₹${b.total}</span></div>
-        </div>`;
-    } else { el.innerHTML = `<div class="alert alert-error">❌ ${data.error}</div>`; }
+      el.innerHTML=`<div class="bill-box" style="margin-top:16px"><h3>🏨 Hotel & Lodging Lifeline — Bill</h3><div class="bill-row"><span>Name</span><span>${b.name}</span></div><div class="bill-row"><span>Phone</span><span>${b.phno}</span></div><div class="bill-row"><span>Address</span><span>${b.address}</span></div><div class="bill-row"><span>Check-In</span><span>${b.checkin}</span></div><div class="bill-row"><span>Check-Out</span><span>${b.checkout}</span></div><div class="bill-row"><span>Room Type</span><span>${b.room}</span></div><div class="bill-row"><span>Room Charges</span><span>₹${b.room_charges}</span></div><div class="bill-row"><span>Restaurant</span><span>₹${b.restaurant_charges}</span></div><div class="bill-row"><span>Payment Mode</span><span>${pd.mode}</span></div><div class="bill-row"><span>Total Amount</span><span>₹${b.total}</span></div></div>`;
+    } else el.innerHTML=`<div class="alert alert-error">❌ ${data.error}</div>`;
   }
-
-  async function loadRecords() {
-    const res = await fetch('/api/records');
-    const records = await res.json();
-    const tbody = document.getElementById('records-body');
-    if (!records.length) { tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;color:#aaa;padding:20px">No records found</td></tr>'; return; }
-    tbody.innerHTML = records.map(r => `
-      <tr>
-        <td>${r.name}</td><td>${r.phno}</td><td>${r.address}</td>
-        <td>${r.checkin}</td><td>${r.checkout}</td><td>${r.room}</td>
-        <td>₹${r.price}</td>
-        <td><span class="badge ${r.status==='Paid'?'badge-paid':'badge-pending'}">${r.status}</span></td>
-      </tr>`).join('');
+  async function loadRecords(){
+    const res=await fetch('/api/records');const records=await res.json();const tbody=document.getElementById('records-body');
+    if(!records.length){tbody.innerHTML='<tr><td colspan="8" style="text-align:center;color:#aaa;padding:20px">No records found</td></tr>';return;}
+    tbody.innerHTML=records.map(r=>`<tr><td>${r.name}</td><td>${r.phno}</td><td>${r.address}</td><td>${r.checkin}</td><td>${r.checkout}</td><td>${r.room}</td><td>₹${r.price}</td><td><span class="badge ${r.status==='Paid'?'badge-paid':'badge-pending'}">${r.status}</span></td></tr>`).join('');
   }
-
   buildMenu();
 </script>
 </body>
