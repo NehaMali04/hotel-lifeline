@@ -105,22 +105,14 @@
     .badge-pending { background: #fff7e6; color: #e67e22; border: 1px solid #e67e22; }
 
     /* Record Cards */
-    .record-card { background: #fff; border: 1px solid #ccf0ed; border-radius: 12px; padding: 16px; margin-bottom: 12px; box-shadow: 0 2px 6px rgba(13,148,136,0.07); }
-    .record-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+    .record-card { background: #fff; border: 1px solid #ccf0ed; border-radius: 12px; padding: 16px; margin-bottom: 12px; box-shadow: 0 2px 6px rgba(13,148,136,0.07); width: 100%; }
+    .record-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding-bottom: 10px; border-bottom: 2px solid #e6faf8; }
     .record-card-header h4 { color: #0d9488; font-size: 1rem; }
-    .record-row { display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px dashed #e0f5f3; font-size: 0.85rem; gap: 8px; }
-    .record-row:last-child { border-bottom: none; }
-    .record-row .rlabel { color: #888; font-size: 0.78rem; flex-shrink: 0; }
-    .record-row .rvalue { color: #333; font-weight: 600; text-align: right; }
-
-    /* Show cards on mobile, table on desktop */
-    .records-mobile { display: block; }
-    .records-desktop { display: none; }
-
-    @media (min-width: 640px) {
-      .records-mobile { display: none; }
-      .records-desktop { display: block; }
-    }
+    .rec-table { width: 100%; }
+    .rec-row { display: flex; padding: 7px 0; border-bottom: 1px solid #f0fafa; align-items: flex-start; }
+    .rec-row:last-child { border-bottom: none; }
+    .rec-label { color: #0d9488; font-size: 0.78rem; font-weight: 700; width: 110px; flex-shrink: 0; }
+    .rec-val { color: #333; font-size: 0.85rem; flex: 1; word-break: break-word; }
 
     .success-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center; padding: 16px; }
     .success-overlay.show { display: flex; }
@@ -331,13 +323,8 @@
 <div id="records" class="page">
   <h2>Hotel Records</h2>
   <button class="btn btn-sm btn-outline" onclick="loadRecords()" style="margin-bottom:14px">🔄 Refresh</button>
-  <div class="card" style="padding:0;overflow:hidden;">
-    <div class="table-wrap">
-      <table>
-        <thead><tr><th>Name</th><th>Phone</th><th>Address</th><th>Check-In</th><th>Check-Out</th><th>Room</th><th>Price</th><th>Status</th></tr></thead>
-        <tbody id="records-body"><tr><td colspan="8" style="text-align:center;color:#aaa;padding:20px">Click Refresh to load records</td></tr></tbody>
-      </table>
-    </div>
+  <div id="records-body">
+    <p style="color:#aaa;text-align:center;padding:20px">Click Refresh to load records</p>
   </div>
 </div>
 
@@ -432,18 +419,24 @@
   }
   async function loadRecords(){
     const res=await fetch('/api/records');const records=await res.json();
-    const tbody=document.getElementById('records-body');
-    if(!records.length){
-      tbody.innerHTML='<tr><td colspan="8" style="text-align:center;color:#aaa;padding:20px">No records found</td></tr>';
-      return;
-    }
-    tbody.innerHTML=records.map(r=>`
-      <tr>
-        <td>${r.name}</td><td>${r.phno}</td><td>${r.address}</td>
-        <td>${r.checkin}</td><td>${r.checkout}</td><td>${r.room}</td>
-        <td>₹${r.price}</td>
-        <td><span class="badge ${r.status==='Paid'?'badge-paid':'badge-pending'}">${r.status}</span></td>
-      </tr>`).join('');
+    const body=document.getElementById('records-body');
+    if(!records.length){body.innerHTML='<p style="color:#aaa;text-align:center;padding:20px">No records found</p>';return;}
+    body.innerHTML=records.map((r,i)=>`
+      <div class="record-card">
+        <div class="record-card-header">
+          <h4>🏨 Record #${i+1}</h4>
+          <span class="badge ${r.status==='Paid'?'badge-paid':'badge-pending'}">${r.status}</span>
+        </div>
+        <div class="rec-table">
+          <div class="rec-row"><div class="rec-label">👤 Name</div><div class="rec-val">${r.name}</div></div>
+          <div class="rec-row"><div class="rec-label">📞 Phone</div><div class="rec-val">${r.phno}</div></div>
+          <div class="rec-row"><div class="rec-label">📍 Address</div><div class="rec-val">${r.address}</div></div>
+          <div class="rec-row"><div class="rec-label">📅 Check-In</div><div class="rec-val">${r.checkin}</div></div>
+          <div class="rec-row"><div class="rec-label">📅 Check-Out</div><div class="rec-val">${r.checkout}</div></div>
+          <div class="rec-row"><div class="rec-label">🛏 Room</div><div class="rec-val">${r.room}</div></div>
+          <div class="rec-row"><div class="rec-label">💰 Price/Night</div><div class="rec-val">₹${r.price}</div></div>
+        </div>
+      </div>`).join('');
   }
   buildMenu();
 </script>
