@@ -101,6 +101,15 @@
     .badge-paid    { background: #e6faf8; color: #0d9488; border: 1px solid #0d9488; }
     .badge-pending { background: #fff7e6; color: #e67e22; border: 1px solid #e67e22; }
 
+    /* Record Cards */
+    .record-card { background: #fff; border: 1px solid #ccf0ed; border-radius: 12px; padding: 16px; margin-bottom: 12px; box-shadow: 0 2px 6px rgba(13,148,136,0.07); }
+    .record-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+    .record-card-header h4 { color: #0d9488; font-size: 1rem; }
+    .record-row { display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px dashed #e0f5f3; font-size: 0.85rem; gap: 8px; }
+    .record-row:last-child { border-bottom: none; }
+    .record-row .rlabel { color: #888; font-size: 0.78rem; flex-shrink: 0; }
+    .record-row .rvalue { color: #333; font-weight: 600; text-align: right; }
+
     .success-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center; padding: 16px; }
     .success-overlay.show { display: flex; }
     .success-modal { background: #fff; border-radius: 20px; padding: 32px 20px; text-align: center; width: 100%; max-width: 380px; box-shadow: 0 20px 60px rgba(0,0,0,0.2); animation: popIn 0.4s cubic-bezier(0.175,0.885,0.32,1.275); }
@@ -308,13 +317,8 @@
 <div id="records" class="page">
   <h2>Hotel Records</h2>
   <button class="btn btn-sm btn-outline" onclick="loadRecords()" style="margin-bottom:14px">🔄 Refresh</button>
-  <div class="card" style="padding:0;overflow:hidden;">
-    <div class="table-wrap">
-      <table>
-        <thead><tr><th>Name</th><th>Phone</th><th>Address</th><th>Check-In</th><th>Check-Out</th><th>Room</th><th>Price/Night</th><th>Status</th></tr></thead>
-        <tbody id="records-body"><tr><td colspan="8" style="text-align:center;color:#aaa;padding:20px">Click Refresh to load records</td></tr></tbody>
-      </table>
-    </div>
+  <div id="records-container">
+    <p style="color:#aaa;text-align:center;padding:20px">Click Refresh to load records</p>
   </div>
 </div>
 
@@ -408,9 +412,22 @@
     } else el.innerHTML=`<div class="alert alert-error">❌ ${data.error}</div>`;
   }
   async function loadRecords(){
-    const res=await fetch('/api/records');const records=await res.json();const tbody=document.getElementById('records-body');
-    if(!records.length){tbody.innerHTML='<tr><td colspan="8" style="text-align:center;color:#aaa;padding:20px">No records found</td></tr>';return;}
-    tbody.innerHTML=records.map(r=>`<tr><td>${r.name}</td><td>${r.phno}</td><td>${r.address}</td><td>${r.checkin}</td><td>${r.checkout}</td><td>${r.room}</td><td>₹${r.price}</td><td><span class="badge ${r.status==='Paid'?'badge-paid':'badge-pending'}">${r.status}</span></td></tr>`).join('');
+    const res=await fetch('/api/records');const records=await res.json();
+    const container=document.getElementById('records-container');
+    if(!records.length){container.innerHTML='<p style="color:#aaa;text-align:center;padding:20px">No records found</p>';return;}
+    container.innerHTML=records.map(r=>`
+      <div class="record-card">
+        <div class="record-card-header">
+          <h4>👤 ${r.name}</h4>
+          <span class="badge ${r.status==='Paid'?'badge-paid':'badge-pending'}">${r.status}</span>
+        </div>
+        <div class="record-row"><span class="rlabel">📞 Phone</span><span class="rvalue">${r.phno}</span></div>
+        <div class="record-row"><span class="rlabel">📍 Address</span><span class="rvalue">${r.address}</span></div>
+        <div class="record-row"><span class="rlabel">📅 Check-In</span><span class="rvalue">${r.checkin}</span></div>
+        <div class="record-row"><span class="rlabel">📅 Check-Out</span><span class="rvalue">${r.checkout}</span></div>
+        <div class="record-row"><span class="rlabel">🛏 Room</span><span class="rvalue">${r.room}</span></div>
+        <div class="record-row"><span class="rlabel">💰 Price/Night</span><span class="rvalue">₹${r.price}</span></div>
+      </div>`).join('');
   }
   buildMenu();
 </script>
