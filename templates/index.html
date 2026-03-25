@@ -414,6 +414,57 @@
     .success-mode     { display: inline-block; background: #e6faf8; color: #0d9488; border: 1px solid #0d9488; border-radius: 20px; padding: 4px 14px; font-size: 0.85rem; font-weight: 600; margin-bottom: 24px; }
     .success-close    { background: #0d9488; color: #fff; border: none; padding: 12px 32px; border-radius: 8px; font-size: 1rem; font-weight: 700; cursor: pointer; transition: background 0.2s; }
     .success-close:hover { background: #0f766e; }
+
+    /* ===== MOBILE RESPONSIVE ===== */
+    @media (max-width: 600px) {
+
+      header { padding: 12px 14px; }
+      header > div { flex-direction: row !important; align-items: center; gap: 10px; }
+      header img { height: 46px !important; }
+      header h1 { font-size: 1.1rem; letter-spacing: 0.5px; }
+      header p  { font-size: 0.72rem; }
+
+      nav {
+        padding: 8px 10px;
+        gap: 4px;
+        overflow-x: auto;
+        flex-wrap: nowrap;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      nav button {
+        padding: 7px 11px;
+        font-size: 0.78rem;
+        white-space: nowrap;
+        flex-shrink: 0;
+      }
+
+      .page { padding: 14px; }
+      h2 { font-size: 1.1rem; margin-bottom: 14px; }
+      .card { padding: 14px; }
+
+      .form-row { grid-template-columns: 1fr; gap: 0; }
+      .room-grid { grid-template-columns: 1fr; }
+      .pay-modes { grid-template-columns: 1fr 1fr; }
+      .menu-items { grid-template-columns: 1fr; }
+
+      .upi-box { grid-template-columns: 1fr; }
+      .upi-qr-side {
+        border-right: none;
+        border-bottom: 1px dashed #b2dfdb;
+        padding-right: 0;
+        padding-bottom: 20px;
+        margin-bottom: 4px;
+      }
+
+      table { font-size: 0.72rem; }
+      th, td { padding: 6px 7px; }
+
+      .success-modal { padding: 28px 16px; }
+      .success-amount { font-size: 1.5rem; }
+      .bill-box { padding: 14px; font-size: 0.82rem; }
+      .bill-row { font-size: 0.8rem; flex-wrap: wrap; gap: 2px; }
+    }
   </style>
 </head>
 <body>
