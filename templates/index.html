@@ -53,7 +53,7 @@
       font-weight: 600;
     }
 
-    .page { display: none; padding: 40px; max-width: 960px; margin: 0 auto; }
+    .page { display: none; padding: 40px; max-width: 960px; margin: 0 auto; width: 100%; }
     .page.active { display: block; }
 
     h2 {
@@ -439,13 +439,34 @@
         flex-shrink: 0;
       }
 
-      .page { padding: 14px; }
+      .page { padding: 12px; }
       h2 { font-size: 1.1rem; margin-bottom: 14px; }
-      .card { padding: 14px; }
 
-      .form-row { grid-template-columns: 1fr; gap: 0; }
+      .card {
+        padding: 14px;
+        width: 100%;
+        border-radius: 10px;
+      }
+
+      .form-row {
+        grid-template-columns: 1fr !important;
+        gap: 0;
+      }
+
+      input, select {
+        width: 100% !important;
+        font-size: 0.9rem;
+      }
+
+      .btn {
+        width: 100%;
+        text-align: center;
+      }
+
       .room-grid { grid-template-columns: 1fr; }
+
       .pay-modes { grid-template-columns: 1fr 1fr; }
+
       .menu-items { grid-template-columns: 1fr; }
 
       .upi-box { grid-template-columns: 1fr; }
@@ -457,8 +478,8 @@
         margin-bottom: 4px;
       }
 
-      table { font-size: 0.72rem; }
-      th, td { padding: 6px 7px; }
+      table { font-size: 0.72rem; display: block; overflow-x: auto; }
+      th, td { padding: 6px 7px; white-space: nowrap; }
 
       .success-modal { padding: 28px 16px; }
       .success-amount { font-size: 1.5rem; }
