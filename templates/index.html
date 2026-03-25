@@ -13,9 +13,9 @@
     .header-text h1 { font-size: 1.15rem; color: #fff; line-height: 1.2; }
     .header-text p  { font-size: 0.72rem; color: rgba(255,255,255,0.85); margin-top: 2px; }
 
-    nav { background: #fff; display: flex; gap: 6px; padding: 8px 12px; border-bottom: 2px solid #ccf0ed; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; width: 100%; }
+    nav { background: #fff; display: grid; grid-template-columns: repeat(5,1fr); gap: 5px; padding: 8px 10px; border-bottom: 2px solid #ccf0ed; width: 100%; }
     nav::-webkit-scrollbar { display: none; }
-    nav button { background: transparent; border: 1px solid #b2dfdb; color: #555; padding: 8px 14px; border-radius: 8px; cursor: pointer; font-size: 0.82rem; white-space: nowrap; flex-shrink: 0; transition: all 0.2s; }
+    nav button { background: transparent; border: 1px solid #b2dfdb; color: #555; padding: 8px 2px; border-radius: 8px; cursor: pointer; font-size: 0.72rem; text-align: center; transition: all 0.2s; width: 100%; }
     nav button.active, nav button:hover { background: #0d9488; color: #fff; border-color: #0d9488; font-weight: 600; }
 
     .page { display: none; padding: 16px; width: 100%; }
@@ -119,8 +119,8 @@
       header img { height: 68px; width: 68px; }
       .header-text h1 { font-size: 1.7rem; }
       .header-text p  { font-size: 0.85rem; }
-      nav { padding: 10px 40px; }
-      nav button { font-size: 0.9rem; padding: 8px 18px; }
+      nav { display: flex; padding: 10px 40px; gap: 8px; }
+      nav button { font-size: 0.9rem; padding: 8px 18px; width: auto; }
       .page { padding: 36px 40px; max-width: 960px; margin: 0 auto; }
       .grid-2 { grid-template-columns: 1fr 1fr; gap: 16px; }
       .room-grid { grid-template-columns: 1fr 1fr; }
