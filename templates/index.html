@@ -104,15 +104,30 @@
     .badge-paid    { background: #e6faf8; color: #0d9488; border: 1px solid #0d9488; }
     .badge-pending { background: #fff7e6; color: #e67e22; border: 1px solid #e67e22; }
 
-    /* Record Cards */
+    /* Records responsive */
+    .rec-mobile  { display: block; }
+    .rec-desktop { display: none; }
+
+    .table-wrap { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.75rem; min-width: 480px; }
+    th { background: #e6faf8; color: #0d9488; padding: 8px; text-align: left; border-bottom: 2px solid #0d9488; white-space: nowrap; }
+    td { padding: 8px; border-bottom: 1px solid #e0f5f3; color: #333; white-space: nowrap; }
+    tr:hover td { background: #f0fafa; }
+
+    /* Record Cards (desktop) */
     .record-card { background: #fff; border: 1px solid #ccf0ed; border-radius: 12px; padding: 16px; margin-bottom: 12px; box-shadow: 0 2px 6px rgba(13,148,136,0.07); width: 100%; }
     .record-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding-bottom: 10px; border-bottom: 2px solid #e6faf8; }
     .record-card-header h4 { color: #0d9488; font-size: 1rem; }
     .rec-table { width: 100%; }
     .rec-row { display: flex; padding: 7px 0; border-bottom: 1px solid #f0fafa; align-items: flex-start; }
     .rec-row:last-child { border-bottom: none; }
-    .rec-label { color: #0d9488; font-size: 0.78rem; font-weight: 700; width: 110px; flex-shrink: 0; }
+    .rec-label { color: #0d9488; font-size: 0.78rem; font-weight: 700; width: 120px; flex-shrink: 0; }
     .rec-val { color: #333; font-size: 0.85rem; flex: 1; word-break: break-word; }
+
+    @media (min-width: 640px) {
+      .rec-mobile  { display: none; }
+      .rec-desktop { display: block; }
+    }
 
     .success-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center; padding: 16px; }
     .success-overlay.show { display: flex; }
@@ -323,7 +338,19 @@
 <div id="records" class="page">
   <h2>Hotel Records</h2>
   <button class="btn btn-sm btn-outline" onclick="loadRecords()" style="margin-bottom:14px">🔄 Refresh</button>
-  <div id="records-body">
+
+  <!-- Mobile: horizontal scrollable table -->
+  <div class="rec-mobile card" style="padding:0;overflow:hidden;">
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Name</th><th>Phone</th><th>Address</th><th>Check-In</th><th>Check-Out</th><th>Room</th><th>Price</th><th>Status</th></tr></thead>
+        <tbody id="records-table-body"><tr><td colspan="8" style="text-align:center;color:#aaa;padding:16px">Click Refresh</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Desktop: vertical cards -->
+  <div class="rec-desktop" id="records-cards-body">
     <p style="color:#aaa;text-align:center;padding:20px">Click Refresh to load records</p>
   </div>
 </div>
@@ -418,10 +445,24 @@
     } else el.innerHTML=`<div class="alert alert-error">❌ ${data.error}</div>`;
   }
   async function loadRecords(){
-    const res=await fetch('/api/records');const records=await res.json();
-    const body=document.getElementById('records-body');
-    if(!records.length){body.innerHTML='<p style="color:#aaa;text-align:center;padding:20px">No records found</p>';return;}
-    body.innerHTML=records.map((r,i)=>`
+    const res=await fetch('/api/records'); const records=await res.json();
+    const tableBody=document.getElementById('records-table-body');
+    const cardsBody=document.getElementById('records-cards-body');
+    if(!records.length){
+      tableBody.innerHTML='<tr><td colspan="8" style="text-align:center;color:#aaa;padding:16px">No records found</td></tr>';
+      cardsBody.innerHTML='<p style="color:#aaa;text-align:center;padding:20px">No records found</p>';
+      return;
+    }
+    // Mobile horizontal table
+    tableBody.innerHTML=records.map(r=>`
+      <tr>
+        <td>${r.name}</td><td>${r.phno}</td><td>${r.address}</td>
+        <td>${r.checkin}</td><td>${r.checkout}</td><td>${r.room}</td>
+        <td>₹${r.price}</td>
+        <td><span class="badge ${r.status==='Paid'?'badge-paid':'badge-pending'}">${r.status}</span></td>
+      </tr>`).join('');
+    // Desktop vertical cards
+    cardsBody.innerHTML=records.map((r,i)=>`
       <div class="record-card">
         <div class="record-card-header">
           <h4>🏨 Record #${i+1}</h4>
