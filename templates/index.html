@@ -96,9 +96,9 @@
     .bill-row:last-child { border-bottom: none; color: #0d9488; font-size: 1rem; font-weight: 700; }
 
     .table-wrap { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
-    table { width: 100%; border-collapse: collapse; font-size: 0.8rem; min-width: 580px; }
-    th { background: #e6faf8; color: #0d9488; padding: 10px; text-align: left; border-bottom: 2px solid #0d9488; white-space: nowrap; }
-    td { padding: 9px 10px; border-bottom: 1px solid #e0f5f3; color: #333; white-space: nowrap; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.75rem; min-width: 480px; }
+    th { background: #e6faf8; color: #0d9488; padding: 8px 8px; text-align: left; border-bottom: 2px solid #0d9488; white-space: nowrap; font-size: 0.72rem; }
+    td { padding: 8px 8px; border-bottom: 1px solid #e0f5f3; color: #333; white-space: nowrap; font-size: 0.75rem; }
     tr:hover td { background: #f0fafa; }
     .badge { padding: 3px 10px; border-radius: 20px; font-size: 0.73rem; font-weight: 700; }
     .badge-paid    { background: #e6faf8; color: #0d9488; border: 1px solid #0d9488; }
@@ -331,17 +331,10 @@
 <div id="records" class="page">
   <h2>Hotel Records</h2>
   <button class="btn btn-sm btn-outline" onclick="loadRecords()" style="margin-bottom:14px">🔄 Refresh</button>
-
-  <!-- Mobile Cards (hidden on desktop) -->
-  <div id="records-cards" class="records-mobile">
-    <p style="color:#aaa;text-align:center;padding:20px">Click Refresh to load records</p>
-  </div>
-
-  <!-- Desktop Table (hidden on mobile) -->
-  <div class="records-desktop card" style="padding:0;overflow:hidden;">
+  <div class="card" style="padding:0;overflow:hidden;">
     <div class="table-wrap">
       <table>
-        <thead><tr><th>Name</th><th>Phone</th><th>Address</th><th>Check-In</th><th>Check-Out</th><th>Room</th><th>Price/Night</th><th>Status</th></tr></thead>
+        <thead><tr><th>Name</th><th>Phone</th><th>Address</th><th>Check-In</th><th>Check-Out</th><th>Room</th><th>Price</th><th>Status</th></tr></thead>
         <tbody id="records-body"><tr><td colspan="8" style="text-align:center;color:#aaa;padding:20px">Click Refresh to load records</td></tr></tbody>
       </table>
     </div>
@@ -439,28 +432,11 @@
   }
   async function loadRecords(){
     const res=await fetch('/api/records');const records=await res.json();
-    const cards=document.getElementById('records-cards');
     const tbody=document.getElementById('records-body');
     if(!records.length){
-      cards.innerHTML='<p style="color:#aaa;text-align:center;padding:20px">No records found</p>';
       tbody.innerHTML='<tr><td colspan="8" style="text-align:center;color:#aaa;padding:20px">No records found</td></tr>';
       return;
     }
-    // Mobile cards
-    cards.innerHTML=records.map(r=>`
-      <div class="record-card">
-        <div class="record-card-header">
-          <h4>👤 ${r.name}</h4>
-          <span class="badge ${r.status==='Paid'?'badge-paid':'badge-pending'}">${r.status}</span>
-        </div>
-        <div class="record-row"><span class="rlabel">📞 Phone</span><span class="rvalue">${r.phno}</span></div>
-        <div class="record-row"><span class="rlabel">📍 Address</span><span class="rvalue">${r.address}</span></div>
-        <div class="record-row"><span class="rlabel">📅 Check-In</span><span class="rvalue">${r.checkin}</span></div>
-        <div class="record-row"><span class="rlabel">📅 Check-Out</span><span class="rvalue">${r.checkout}</span></div>
-        <div class="record-row"><span class="rlabel">🛏 Room</span><span class="rvalue">${r.room}</span></div>
-        <div class="record-row"><span class="rlabel">💰 Price/Night</span><span class="rvalue">₹${r.price}</span></div>
-      </div>`).join('');
-    // Desktop table
     tbody.innerHTML=records.map(r=>`
       <tr>
         <td>${r.name}</td><td>${r.phno}</td><td>${r.address}</td>
